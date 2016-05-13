@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+
+
+    <title>CodePen - wheather</title>
+    
+    
+    
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Slabo+27px|Lora:400,700,700italic|PT+Sans:400,700,700italic|Candal|Lobster|Abril+Fatface|Ropa+Sans|Hammersmith+One&subset=latin,latin-ext,cyrillic,cyrillic-ext,vietnamese'>
+<link rel='stylesheet prefetch' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Slabo+27px|Lora:400,700,700italic|PT+Sans:400,700,700italic|Candal|Lobster|Abril+Fatface|Ropa+Sans|Hammersmith+One&subset=latin,latin-ext,cyrillic,cyrillic-ext,vietnamese'>
+<link rel='stylesheet prefetch' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Slabo+27px|Lora:400,700,700italic|PT+Sans:400,700,700italic|Candal|Lobster|Abril+Fatface|Ropa+Sans|Hammersmith+One&subset=latin,latin-ext,cyrillic,cyrillic-ext,vietnamese'>
+<link rel='stylesheet prefetch' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
+
+        <style>
+      body{
+  background-image:URL("");
+  background-size:1920px 1080px,cover;
+  color:#fff;
+  font-family: 'Lobster', sans-serif;
+}
+.page-header{
+  padding:25px 0px 25px 0px; 
+}
+h1{
+  font-size:75px;
+   text-shadow:10px 4px 2px #000;
+}
+h2{
+  font-size:50px;
+  text-shadow:5px 5px 5px #000;
+  color:#f2f2f2;
+}
+h4{
+  font-size:45px;
+  text-shadow:5px 5px 5px #000;
+  color:#f2f2f2;
+  font-family: 'Ropa Sans', sans-serif;
+}
+.temp{
+  font-size:75px;
+  text-shadow:5px 5px 5px #000;
+  color:#f2f2f2;
+}
+.ionicons{
+  font-size:100px;
+  color:#CAF;
+}
+.img{
+  width:100px;
+  height:100px;
+}
+    </style>
+
+    
+    
+    
+  </head>
+
+  <body translate="no" >
+
+    <div class="container">
+  <div class="row text-center">
+    <div class="page-header">
+      <h1>Wheather Application</h1>
+    </div>
+    </div>
+  <div class="row text-center">
+    <div class="col-xs-12">
+      <h2 class="location text-uppercase"></h2>
+    </div>
+    </div>
+  <div class="row text-center">
+     <div class="col-xs-12" id="img">
+    </div>
+  </div>
+  <div class="row text-center">
+     <div class="col-xs-12">
+      <span>
+       <h3 class="temp">
+         </h3>
+       </span>
+    </div>
+  </div>
+  <div class="row text-center">
+    <div class="col-xs-12"></div>
+    <h4 id="desc"></h4>
+    </div>
+</div>
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular.min.js'></script>
+
+        <script>
+      var lat=0;
+var long=0;
+var c_unit=true;
+var unit=["metric","imperial"];
+var temp_unit=['C','F'];
+
+$(document).ready(function(){
+  if(navigator.geolocation){
+     navigator.geolocation.getCurrentPosition(function(position) {
+       lat=position.coords.latitude;
+       long=position.coords.longitude;
+       
+$("#data").html("latitude: " + lat + "<br>longitude: " + long);
+
+        getWheather(lat,long,unit[0],temp_unit[0]);
+});
+  }
+
+});
+
+function getWheather(lat,long,unit,temp_un){
+  var url='http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+long+'&appid=615a29159765ba9064aea2b34d2ec1d0&units='+unit;
+    $.getJSON(url, function(json) {
+    
+      $(".location").html(json.name+" ,"+json.sys.country);
+      var icon='<img class="img" src="http://openweathermap.org/img/w/'+json.weather[0].icon+'.png"></img>';
+      $("#img").html(icon);
+      $("#desc").html(json.weather[0].description);
+      $(".temp").html(json.main.temp+' <a href="#" onclick="toogler()" id="changer"><sup>o</sup>'+temp_un+'</a>');
+      var image=getIcon(json.weather[0].main);
+       $("body").css("background-image","url("+image+")");
+    });
+}
+function getIcon(temp){
+  switch(temp){
+    case 'Rain':
+     return 'https://od.lk/s/113764656_87RgP/Rain-min.jpg';
+      
+    case 'Thunderstorm':
+      return 'https://od.lk/s/113764658_sRQet/thunder-min.jpg';
+   
+    case 'Drizzle':
+         return 'https://od.lk/s/113764654_d2gTU/drizz-min.jpg';//'https://5wise.files.wordpress.com/2016/03/rain.jpg';
+      
+    case 'Snow':
+         return 'https://od.lk/s/113764657_zY9i0/snow-min.jpg';
+      
+    case 'Haze':
+         return 'https://od.lk/s/113764655_B9Z9F/fogg-min.jpg';//'http://wallpapersonthe.net/wallpapers/b/1920x1080/1920x1080-road_dark_mist-8731.jpg';
+      
+    case 'Clear':
+      return 'https://od.lk/s/113764651_6MzyT/clear-min.jpg';//'http://wallpapercave.com/wp/kc3SyrP.jpg';
+      
+    case 'Clouds':
+      return 'https://od.lk/s/113764652_gaLod/clouds-min.jpg';//'http://p1.pichost.me/i/71/1955796.jpg';
+      
+    default:
+      return 'https://od.lk/s/113764653_7sqKs/default-min.jpg';// 'http://the-weather.net/img/wallp5.jpg';
+  }
+}
+function toogler(){
+  if(c_unit==true){
+    c_unit=false;
+    getWheather(lat,long,unit[1],temp_unit[1]);
+  }
+  else{
+    c_unit=true;
+    getWheather(lat,long,unit[0],temp_unit[0]);
+  }
+ 
+}
+      //# sourceURL=pen.js
+    </script>
+
+    
+    
+    
+  </body>
+</html>
+ 
