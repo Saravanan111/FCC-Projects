@@ -1,7 +1,7 @@
 # FCC-Projects
-## wheather-app
+## weather-app
 -----------------------
-     This is a third Project In FCC. This Will Shows the wheather in the Current place. according to the 
-     Wheather the Images will change. user can toogle the temprature unit by clicking on the temprature.
-     All user stories for FCC are fullfiled in this project.
+     This is a third Project In FCC. This Will show the weather in the current place. According to the 
+     weather the images will change. The user can toogle the temperature unit by clicking on the temperature.
+     All user stories for FCC are fulfilled in this project.
      
